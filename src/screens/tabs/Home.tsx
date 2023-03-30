@@ -52,7 +52,7 @@ const Home = () => {
               onPress={() => {
                 navigation.navigate('ProductDetail', {data: item});
               }}>
-              <Image source={{uri: item.images[0,2]}} style={styles.itemImage} />
+              <Image source={{uri: item.images[0]}} style={styles.itemImage} />
               <View>
                 <Text style={styles.name}>
                   {item.title.length > 25
