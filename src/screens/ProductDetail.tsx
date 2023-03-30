@@ -46,7 +46,7 @@ const ProductDetail = () => {
           activeOpacity={0.5}
           style={styles.wishlistBtn}
           onPress={() => {
-            // dispatch(addItemToWishlist(route.params.data));
+            dispatch(addItemToWishlist(route.params.data));
           }}>
           <Image
             source={require('../images/wishlist.png')}
