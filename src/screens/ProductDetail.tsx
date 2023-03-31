@@ -14,6 +14,7 @@ import CustomButton from '../common/CustomButton';
 
 import {useDispatch} from 'react-redux';
 import {addItemToWishlist} from '../redux/slices/WishlistSlice';
+import {addItemToCart} from '../redux/slices/CartSlice';
 
 const ProductDetail = () => {
   const navigation = useNavigation();
@@ -22,16 +23,16 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Header
-          leftIcon={require('../images/back.png')}
-          rightIcon={require('../images/cart.png')}
-          titles={'Product Detail'}
-          onClickLeftIcon={() => {
-            navigation.goBack();
-          }}
-        />
+    <View style={styles.container}>
+      <Header
+        leftIcon={require('../images/back.png')}
+        rightIcon={require('../images/cart.png')}
+        titles={'Product Detail'}
+        onClickLeftIcon={() => {
+          navigation.goBack();
+        }}
+      />
+      <ScrollView>
         <Image
           source={{uri: route.params.data.images[0]}}
           style={styles.banner}
@@ -57,10 +58,12 @@ const ProductDetail = () => {
           bg={'#FF9A0C'}
           title={'Add To Cart'}
           color={'#fff'}
-          onClick={() => {}}
+          onClick={() => {
+            dispatch(addItemToCart(route.params.data));
+          }}
         />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
   wishlistBtn: {
     position: 'absolute',
     right: 20,
-    top: 80,
+    top: 50,
     backgroundColor: '#E2DFDF',
     justifyContent: 'center',
     alignItems: 'center',

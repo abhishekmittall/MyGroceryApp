@@ -16,46 +16,40 @@ import {useSelector} from 'react-redux';
 import Header from '../../common/Header';
 
 const Wishlist = () => {
-  const items: any = useSelector(state => state);
-  console.log(JSON.stringify(items));
-  const navigation: any = useNavigation();
+  const items: any = useSelector(state => state.wishlist);
   const [wishlistItems, setWishlistItems] = useState(items.data);
+  const navigation: any = useNavigation();
   return (
     <View style={styles.container}>
-      <Header title={'Wishlist Items'} />
-      <View>
-        <FlatList
-          data={wishlistItems}
-          renderItem={({item, index}: any) => {
-            return (
-              <TouchableOpacity
-                activeOpacity={1}
-                style={styles.productItems}
-                onPress={() => {
-                  navigation.navigate('ProductDetail', {data: item});
-                }}>
-                <Image
-                  source={{uri: item.images[0]}}
-                  style={styles.itemImage}
-                />
-                <View>
-                  <Text style={styles.name}>
-                    {item.title.length > 25
-                      ? item.title.substring(0, 25) + '...'
-                      : item.title}
-                  </Text>
-                  <Text style={styles.description}>
-                    {item.description.length > 30
-                      ? item.description.substring(0, 30) + '...'
-                      : item.description}
-                  </Text>
-                  <Text style={styles.price}>{'$' + item.price}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
+      {/* <Header title={'Wishlist Items'} /> */}
+      <FlatList
+        data={wishlistItems}
+        renderItem={({item, index}: any) => {
+          return (
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.productItems}
+              onPress={() => {
+                navigation.navigate('ProductDetail', {data: item});
+              }}>
+              <Image source={{uri: item.images[0]}} style={styles.itemImage} />
+              <View>
+                <Text style={styles.name}>
+                  {item.title.length > 25
+                    ? item.title.substring(0, 25) + '...'
+                    : item.title}
+                </Text>
+                <Text style={styles.description}>
+                  {item.description.length > 30
+                    ? item.description.substring(0, 30) + '...'
+                    : item.description}
+                </Text>
+                <Text style={styles.price}>{'$' + item.price}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+      />
     </View>
   );
 };

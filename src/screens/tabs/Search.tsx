@@ -35,7 +35,7 @@ const Search = () => {
 
   return (
     <View style={styles.container}>
-      <Header title={'Search Items'} />
+      {/* <Header title={'Search Items'} /> */}
       <View style={styles.searchView}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image

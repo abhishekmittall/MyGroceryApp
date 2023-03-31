@@ -1,12 +1,12 @@
 const {createSlice} = require('@reduxjs/toolkit');
 
-const WishlistSlice = createSlice({
-  name: 'wishlist',
+const CartSlice = createSlice({
+  name: 'cart',
   initialState: {
     data: [],
   },
   reducers: {
-    addItemToWishlist(state, action) {
+    addItemToCart(state, action) {
       let tempData = state.data;
       tempData.push(action.payload);
       state.data = tempData;
@@ -14,5 +14,5 @@ const WishlistSlice = createSlice({
   },
 });
 
-export const {addItemToWishlist} = WishlistSlice.actions;
-export default WishlistSlice.reducer;
+export const {addItemToCart} = CartSlice.actions;
+export default CartSlice.reducer;
