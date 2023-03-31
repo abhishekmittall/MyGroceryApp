@@ -35,7 +35,11 @@ const Search = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Header title={'Search Items'} /> */}
+      <Header
+        title={'Search Items'}
+        rightIcon={require('../../images/cart.png')}
+        isCart={true}
+      />
       <View style={styles.searchView}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image

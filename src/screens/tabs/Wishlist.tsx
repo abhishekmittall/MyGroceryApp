@@ -21,7 +21,11 @@ const Wishlist = () => {
   const navigation: any = useNavigation();
   return (
     <View style={styles.container}>
-      {/* <Header title={'Wishlist Items'} /> */}
+      <Header
+        title={'Wishlist Items'}
+        rightIcon={require('../../images/cart.png')}
+        isCart={true}
+      />
       <FlatList
         data={wishlistItems}
         renderItem={({item, index}: any) => {

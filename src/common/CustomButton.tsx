@@ -12,7 +12,7 @@ const {height, width} = Dimensions.get('window');
 const CustomButton = ({bg, title, onClick, color}: any) => {
   return (
     <TouchableOpacity
-      activeOpacity={1}
+      activeOpacity={0.5}
       style={[styles.btn, {backgroundColor: bg}]}
       onPress={() => {
         onClick();

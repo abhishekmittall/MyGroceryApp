@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '../common/Header';
 
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -20,6 +20,8 @@ const ProductDetail = () => {
   const navigation = useNavigation();
   const route: any = useRoute();
 
+  const [qty, setQty] = useState(1);
+
   const dispatch = useDispatch();
 
   return (
@@ -27,10 +29,11 @@ const ProductDetail = () => {
       <Header
         leftIcon={require('../images/back.png')}
         rightIcon={require('../images/cart.png')}
-        titles={'Product Detail'}
+        title={'Product Detail'}
         onClickLeftIcon={() => {
           navigation.goBack();
         }}
+        isCart={true}
       />
       <ScrollView>
         <Image
@@ -39,9 +42,29 @@ const ProductDetail = () => {
         />
         <Text style={styles.title}>{route.params.data.title}</Text>
         <Text style={styles.description}>{route.params.data.description}</Text>
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
           <Text style={[styles.price, {color: '#000'}]}>{'Price: '}</Text>
           <Text style={styles.price}>{'$' + route.params.data.price}</Text>
+          <View style={styles.qtyView}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                if (qty > 1) {
+                  setQty(qty - 1);
+                }
+              }}>
+              <Text style={styles.btnTxt}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.qty}>{qty}</Text>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                setQty(qty + 1);
+              }}>
+              <Text style={styles.btnTxt}>+</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <TouchableOpacity
           activeOpacity={0.5}
@@ -54,12 +77,13 @@ const ProductDetail = () => {
             style={styles.icon}
           />
         </TouchableOpacity>
+
         <CustomButton
           bg={'#FF9A0C'}
           title={'Add To Cart'}
           color={'#fff'}
           onClick={() => {
-            dispatch(addItemToCart(route.params.data));
+            dispatch(addItemToCart({...route.params.data, qty}));
           }}
         />
       </ScrollView>
@@ -116,5 +140,30 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
+  },
+  qtyView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    marginLeft: 20,
+  },
+  btn: {
+    padding: 5,
+    borderWidth: 0.5,
+    width: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginLeft: 10,
+  },
+  btnTxt: {
+    fontSize: 20,
+    fontFamily: 'Manrope-Regular',
+    fontWeight: '600',
+  },
+  qty: {
+    marginLeft: 10,
+    fontSize: 18,
+    fontFamily: 'Manrope-Regular',
   },
 });
