@@ -24,7 +24,7 @@ import {
 
 const Cart = () => {
   const navigation: any = useNavigation();
-  const items: any = useSelector(state => state.cart);
+  const items: any = useSelector<any>(state => state.cart);
   const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     setCartItems(items.data);
@@ -50,7 +50,7 @@ const Cart = () => {
               onPress={() => {
                 navigation.navigate('ProductDetail', {data: item});
               }}>
-              <Image source={{uri: item.images[0]}} style={styles.itemImage} />
+              <Image source={{uri: item.image}} style={styles.itemImage} />
               <View>
                 <Text style={styles.name}>
                   {item.title.length > 25

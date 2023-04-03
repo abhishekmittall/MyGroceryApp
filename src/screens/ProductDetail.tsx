@@ -36,10 +36,7 @@ const ProductDetail = () => {
         isCart={true}
       />
       <ScrollView>
-        <Image
-          source={{uri: route.params.data.images[0]}}
-          style={styles.banner}
-        />
+        <Image source={{uri: route.params.data.image}} style={styles.banner} />
         <Text style={styles.title}>{route.params.data.title}</Text>
         <Text style={styles.description}>{route.params.data.description}</Text>
         <View

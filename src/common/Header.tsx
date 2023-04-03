@@ -21,7 +21,7 @@ const Header = ({
   isCart,
 }: any) => {
   const navigation: any = useNavigation();
-  const cartItems: any = useSelector(state => state.cart);
+  const cartItems: any = useSelector<any>(state => state.cart);
   return (
     <View style={styles.header}>
       <TouchableOpacity

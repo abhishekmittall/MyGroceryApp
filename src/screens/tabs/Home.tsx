@@ -24,8 +24,7 @@ const Home = () => {
   }, []);
 
   const getProducts = () => {
-    // fetch('https://fakestoreapi.com/products')
-    fetch('https://api.escuelajs.co/api/v1/products')
+    fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
       .then(json => {
         setProducts(json);
@@ -56,7 +55,7 @@ const Home = () => {
               onPress={() => {
                 navigation.navigate('ProductDetail', {data: item});
               }}>
-              <Image source={{uri: item.images[0]}} style={styles.itemImage} />
+              <Image source={{uri: item.image}} style={styles.itemImage} />
               <View>
                 <Text style={styles.name}>
                   {item.title.length > 25

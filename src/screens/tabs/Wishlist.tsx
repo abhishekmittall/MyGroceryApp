@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 import Header from '../../common/Header';
 
 const Wishlist = () => {
-  const items: any = useSelector(state => state.wishlist);
+  const items: any = useSelector<any>(state => state.wishlist);
   const [wishlistItems, setWishlistItems] = useState(items.data);
   const navigation: any = useNavigation();
   return (
@@ -36,7 +36,7 @@ const Wishlist = () => {
               onPress={() => {
                 navigation.navigate('ProductDetail', {data: item});
               }}>
-              <Image source={{uri: item.images[0]}} style={styles.itemImage} />
+              <Image source={{uri: item.image}} style={styles.itemImage} />
               <View>
                 <Text style={styles.name}>
                   {item.title.length > 25
