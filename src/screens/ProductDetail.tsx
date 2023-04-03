@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../common/Header';
@@ -15,14 +16,29 @@ import CustomButton from '../common/CustomButton';
 import {useDispatch} from 'react-redux';
 import {addItemToWishlist} from '../redux/slices/WishlistSlice';
 import {addItemToCart} from '../redux/slices/CartSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AskForLoginModal from '../common/AskForLoginModal';
 
 const ProductDetail = () => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const route: any = useRoute();
 
   const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
+
+  const checkUserStatus = async () => {
+    let isUserLoggedIn = false;
+    const status = await AsyncStorage.getItem('IS_USER_LOGGED_IN');
+    if (status === null) {
+      isUserLoggedIn = false;
+    } else {
+      isUserLoggedIn = true;
+    }
+    return isUserLoggedIn;
+  };
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -67,7 +83,11 @@ const ProductDetail = () => {
           activeOpacity={0.5}
           style={styles.wishlistBtn}
           onPress={() => {
-            dispatch(addItemToWishlist(route.params.data));
+            if (!checkUserStatus()) {
+              dispatch(addItemToWishlist(route.params.data));
+            } else {
+              setModalVisible(true);
+            }
           }}>
           <Image
             source={require('../images/wishlist.png')}
@@ -80,10 +100,28 @@ const ProductDetail = () => {
           title={'Add To Cart'}
           color={'#fff'}
           onClick={() => {
-            dispatch(addItemToCart({...route.params.data, qty}));
+            if (!checkUserStatus()) {
+              dispatch(addItemToCart({...route.params.data, qty}));
+            } else {
+              setModalVisible(true);
+            }
           }}
         />
       </ScrollView>
+      <AskForLoginModal
+        modalVisible={modalVisible}
+        onClickLogin={() => {
+          setModalVisible(false);
+          navigation.navigate('Login');
+        }}
+        onClickSignup={() => {
+          setModalVisible(false);
+          navigation.navigate('Signup');
+        }}
+        onClose={() => {
+          setModalVisible(false);
+        }}
+      />
     </View>
   );
 };
