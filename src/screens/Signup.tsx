@@ -1,23 +1,71 @@
 import {StyleSheet, Text, View, TextInput} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import CustomButton from '../common/CustomButton';
 import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const Signup = () => {
   const navigation: any = useNavigation();
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const addUser: any = () => {
+    firestore()
+      .collection('Users')
+      .add({
+        name: name,
+        email: email,
+        mobile: mobile,
+        password: password,
+        confirmPassword: confirmPassword,
+      })
+      .then(() => {
+        navigation.navigate('Login');
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{'Sign up'}</Text>
-      <TextInput placeholder="Enter Name" style={styles.input} />
-      <TextInput placeholder="Enter Email" style={styles.input} />
-      <TextInput placeholder="Enter Mobile" style={styles.input} />
-      <TextInput placeholder="Enter Password" style={styles.input} />
-      <TextInput placeholder="Enter Confirm Password" style={styles.input} />
+      <TextInput
+        placeholder="Enter Name"
+        style={styles.input}
+        value={name}
+        onChangeText={txt => setName(txt)}
+      />
+      <TextInput
+        placeholder="Enter Email"
+        style={styles.input}
+        value={email}
+        onChangeText={txt => setEmail(txt)}
+      />
+      <TextInput
+        placeholder="Enter Mobile"
+        style={styles.input}
+        value={mobile}
+        onChangeText={txt => setMobile(txt)}
+      />
+      <TextInput
+        placeholder="Enter Password"
+        style={styles.input}
+        value={password}
+        onChangeText={txt => setPassword(txt)}
+      />
+      <TextInput
+        placeholder="Enter Confirm Password"
+        style={styles.input}
+        value={confirmPassword}
+        onChangeText={txt => setConfirmPassword(txt)}
+      />
       <CustomButton
         bg={'#FF9A0C'}
         title={'Sign up'}
         color={'#fff'}
-        onClick={() => {}}
+        onClick={() => {
+          addUser();
+        }}
       />
       <Text
         style={styles.loginText}

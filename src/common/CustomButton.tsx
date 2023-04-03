@@ -9,7 +9,7 @@ import React from 'react';
 
 const {height, width} = Dimensions.get('window');
 
-const CustomButton = ({bg, title, onClick, color}: any) => {
+const CustomButton = ({bg, title, onClick, color}:any) => {
   return (
     <TouchableOpacity
       activeOpacity={0.5}
