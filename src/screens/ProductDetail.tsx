@@ -100,11 +100,12 @@ const ProductDetail = () => {
           title={'Add To Cart'}
           color={'#fff'}
           onClick={() => {
-            if (!checkUserStatus()) {
-              dispatch(addItemToCart({...route.params.data, qty}));
-            } else {
-              setModalVisible(true);
-            }
+            // if (!checkUserStatus()) {
+            //   dispatch(addItemToCart({...route.params.data, qty}));
+            // } else {
+            //   setModalVisible(true);
+            // }
+            dispatch(addItemToCart({...route.params.data, qty}));
           }}
         />
       </ScrollView>

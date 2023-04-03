@@ -21,6 +21,7 @@ import {
   reduceItemFromCart,
   removeItemFromCart,
 } from '../redux/slices/CartSlice';
+import CheckoutLayout from '../common/CheckoutLayout';
 
 const Cart = () => {
   const navigation: any = useNavigation();
@@ -29,6 +30,14 @@ const Cart = () => {
   useEffect(() => {
     setCartItems(items.data);
   }, [items]);
+
+  const getTotal = () => {
+    let total = 0;
+    cartItems.map(item => {
+      total = total + item.qty * item.price;
+    });
+    return total.toFixed(0);
+  };
 
   const dispatch = useDispatch();
   return (
@@ -89,6 +98,14 @@ const Cart = () => {
           );
         }}
       />
+      {cartItems.length < 1 && (
+        <View style={styles.noItems}>
+          <Text style={styles.noItemsText}>No Items in Cart</Text>
+        </View>
+      )}
+      {cartItems.length > 0 && (
+        <CheckoutLayout items={cartItems.length} total={getTotal()} />
+      )}
     </View>
   );
 };
@@ -98,7 +115,6 @@ export default Cart;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   productItems: {
     width: width,
@@ -153,5 +169,16 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 18,
     fontFamily: 'Manrope-Regular',
+  },
+  noItems: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noItemsText: {
+    fontFamily: 'Manrope-SemiBold',
+    color: '#000',
+    fontSize: 18,
   },
 });
