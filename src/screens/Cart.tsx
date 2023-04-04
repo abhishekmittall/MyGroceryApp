@@ -27,19 +27,19 @@ const Cart = () => {
   const navigation: any = useNavigation();
   const items: any = useSelector<any>(state => state.cart);
   const [cartItems, setCartItems] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
     setCartItems(items.data);
   }, [items]);
 
   const getTotal = () => {
     let total = 0;
-    cartItems.map(item => {
+    cartItems.map((item: any) => {
       total = total + item.qty * item.price;
     });
-    return total.toFixed(0);
+    return total.toFixed(2);
   };
 
-  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Header
