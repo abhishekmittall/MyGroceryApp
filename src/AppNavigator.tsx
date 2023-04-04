@@ -1,7 +1,9 @@
 import {StatusBar, StyleSheet} from 'react-native';
 import React from 'react';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+
 import Main from './screens/Main';
 import ProductDetail from './screens/ProductDetail';
 import Cart from './screens/Cart';
