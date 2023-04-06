@@ -8,29 +8,51 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../common/Header';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../common/CustomButton';
 import {useDispatch} from 'react-redux';
-import {addAddress} from '../redux/slices/AddressSlice';
+import {addAddress, updateAddress} from '../redux/slices/AddressSlice';
+
+import uuid from 'react-native-uuid';
 
 const AddAddress = () => {
+  const route: any = useRoute();
   const navigation: any = useNavigation();
 
-  const [type, setType] = useState(1);
-
-  const [name, setName] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [home, setHome] = useState('');
-  const [city, setCity] = useState('');
-  const [pincode, setPincode] = useState('');
-  const [state, setState] = useState('');
+  const [type, setType] = useState(
+    route.params.type === 'edit'
+      ? route.params.data.type == 'Home'
+        ? 1
+        : 2
+      : 1,
+  );
+  const [name, setName] = useState(
+    route.params.type === 'edit' ? route.params.data.name : '',
+  );
+  const [mobile, setMobile] = useState(
+    route.params.type === 'edit' ? route.params.data.mobile : '',
+  );
+  const [home, setHome] = useState(
+    route.params.type === 'edit' ? route.params.data.home : '',
+  );
+  const [city, setCity] = useState(
+    route.params.type === 'edit' ? route.params.data.city : '',
+  );
+  const [pincode, setPincode] = useState(
+    route.params.type === 'edit' ? route.params.data.pincode : '',
+  );
+  const [state, setState] = useState(
+    route.params.type === 'edit' ? route.params.data.state : '',
+  );
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
       <Header
         leftIcon={require('../images/back.png')}
-        title="Add New Address"
+        title={
+          route.params.type === 'edit' ? 'Edit Address' : 'Add New Address'
+        }
         onClickLeftIcon={() => {
           navigation.goBack();
         }}
@@ -130,18 +152,35 @@ const AddAddress = () => {
         title={'Save Address'}
         color={'#fff'}
         onClick={() => {
-          dispatch(
-            addAddress({
-              name: name,
-              mobile: mobile,
-              home: home,
-              city: city,
-              pincode: pincode,
-              state: state,
-              type: type == 1 ? 'Home' : 'Office',
-            }),
-          );
-          navigation.goBack();
+          if (route.params.type === 'edit') {
+            dispatch(
+              updateAddress({
+                name: name,
+                mobile: mobile,
+                home: home,
+                city: city,
+                pincode: pincode,
+                state: state,
+                type: type == 1 ? 'Home' : 'Office',
+                id: route.params.data.id,
+              }),
+            );
+            navigation.goBack();
+          } else {
+            dispatch(
+              addAddress({
+                name: name,
+                mobile: mobile,
+                home: home,
+                city: city,
+                pincode: pincode,
+                state: state,
+                type: type == 1 ? 'Home' : 'Office',
+                id: uuid.v4(),
+              }),
+            );
+            navigation.goBack();
+          }
         }}
       />
     </View>

@@ -9,8 +9,29 @@ export const AddressSlice = createSlice({
     addAddress(state, action) {
       state.data.push(action.payload);
     },
+    deleteAddress(state, action) {
+      let newArr = state.data.filter(item => {
+        return item.id !== action.payload;
+      });
+      state.data = newArr;
+    },
+    updateAddress(state, action) {
+      let temp = state.data;
+      temp.map(item => {
+        if (item.id == action.payload.id) {
+          item.name = action.payload.name;
+          item.mobile = action.payload.mobile;
+          item.home = action.payload.home;
+          item.city = action.payload.city;
+          item.pincode = action.payload.pincode;
+          item.state = action.payload.state;
+          item.type = action.payload.type;
+        }
+        state.data = temp;
+      });
+    },
   },
 });
 
-export const {addAddress} = AddressSlice.actions;
+export const {addAddress, deleteAddress, updateAddress} = AddressSlice.actions;
 export default AddressSlice.reducer;

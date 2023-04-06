@@ -10,8 +10,9 @@ import {
 import React, {useEffect} from 'react';
 import Header from '../common/Header';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {deleteAddress} from '../redux/slices/AddressSlice';
 
 const Addresses = () => {
   const navigation: any = useNavigation();
@@ -42,6 +43,8 @@ const Addresses = () => {
     );
     navigation.goBack();
   };
+
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Header
@@ -78,13 +81,23 @@ const Addresses = () => {
                 </Text>
                 <View style={styles.bottomView}>
                   <TouchableOpacity
-                    style={[styles.bottomIcon, {marginRight: 10}]}>
+                    style={[styles.bottomIcon, {marginRight: 20}]}
+                    onPress={() => {
+                      navigation.navigate('AddAddress', {
+                        type: 'edit',
+                        data: item,
+                      });
+                    }}>
                     <Image
                       source={require('../images/edit.png')}
                       style={styles.bottomIcon}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.bottomIcon}>
+                  <TouchableOpacity
+                    style={styles.bottomIcon}
+                    onPress={() => {
+                      dispatch(deleteAddress(item.id));
+                    }}>
                     <Image
                       source={require('../images/delete.png')}
                       style={styles.bottomIcon}
@@ -99,7 +112,7 @@ const Addresses = () => {
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => {
-          navigation.navigate('AddAddress');
+          navigation.navigate('AddAddress', {type: 'new'});
         }}>
         <Text style={styles.add}>+</Text>
       </TouchableOpacity>
