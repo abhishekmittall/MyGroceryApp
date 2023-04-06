@@ -14,7 +14,7 @@ const CheckoutLayout = ({total, items}: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.tab}>
-        <Text style={styles.itemTotalText}>{'Items ' + items}</Text>
+        <Text style={styles.itemTotalText}>{`( Items + ${items} )`}</Text>
         <Text style={styles.itemTotalText}>{'Total: $ ' + total}</Text>
       </View>
       <View style={styles.tab}>

@@ -6,14 +6,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../common/Header';
 
 const {height, width} = Dimensions.get('window');
 
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addItemToCart,
@@ -21,12 +20,13 @@ import {
   removeItemFromCart,
 } from '../redux/slices/CartSlice';
 import CustomButton from '../common/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Checkout = () => {
   const navigation: any = useNavigation();
 
   const [selectedMethod, setSelectedMethod] = useState(0);
-  const [selectedAddress, setSelectedAddress] = useState(
+  const [selectedAddress, setSelectedAddress] = useState<any>(
     'Please select address',
   );
 
@@ -39,10 +39,19 @@ const Checkout = () => {
 
   const getTotal = () => {
     let total = 0;
-    cartItems.map((item:any) => {
+    cartItems.map((item: any) => {
       total = total + item.qty * item.price;
     });
     return total.toFixed(2);
+  };
+
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    getSelectedAddress();
+  }, [isFocused]);
+
+  const getSelectedAddress = async () => {
+    setSelectedAddress(await AsyncStorage.getItem('MY_ADDRESS'));
   };
   return (
     <View style={styles.container}>
@@ -184,7 +193,19 @@ const Checkout = () => {
         />
         <Text style={styles.paymentMethodsText}>Cash on Delivery</Text>
       </TouchableOpacity>
-      <Text style={styles.title}>Address</Text>
+      <View style={styles.addressView}>
+        <Text style={styles.title}>Address</Text>
+        <Text
+          style={[
+            styles.title,
+            {textDecorationLine: 'underline', color: '#0269A0FB'},
+          ]}
+          onPress={() => {
+            navigation.navigate('Addresses');
+          }}>
+          Edit Address
+        </Text>
+      </View>
       <Text
         style={[styles.title, {marginTop: 10, fontSize: 16, color: '#636363'}]}>
         {selectedAddress}
@@ -204,7 +225,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     marginLeft: 20,
-    marginTop: 30,
+    marginTop: 20,
     color: '#000',
     fontFamily: 'Manrope-SemiBold',
   },
@@ -286,5 +307,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     color: '#000',
     fontFamily: 'Manrope-SemiBold',
+  },
+  addressView: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingRight: 20,
   },
 });
